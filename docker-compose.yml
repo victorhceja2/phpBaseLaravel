@@ -11,6 +11,9 @@ services:
       MYSQL_DATABASE: db1
   php:
     build: .
+    image: php:8.1-apache
+    ports:
+      - '8000:80'   
     volumes:
       - .:/var/www/html
     depends_on:
