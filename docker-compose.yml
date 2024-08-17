@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: innovacionMovil2024*
+      MYSQL_DATABASE: db1
+  php:
+    build: .
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: innovacionMovil2024*
+  laravel:
+    build: .
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - php
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: db1
+      DB_USERNAME: root
+      DB_PASSWORD: innovacionMovil2024*
+volumes:
+  db_data:
